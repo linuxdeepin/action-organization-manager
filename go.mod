@@ -1,4 +1,4 @@
-module github.com/myml/gh-org-mgr
+module github.com/myml/action-organization-manager
 
 go 1.17
 
