@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         go env -w GO111MODULE=on
-        go install github.com/myml/action-organization-manager/cmd/action-organization-manager@latest
+        go install github.com/myml/action-organization-manager/cmd/action-organization-manager@main
     - name: command
       shell: bash
       run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}

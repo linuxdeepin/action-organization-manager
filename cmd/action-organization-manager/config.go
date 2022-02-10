@@ -41,7 +41,7 @@ type RequiredStatusChecks struct {
 }
 
 func ParseConfigFile(filename string) (*Config, error) {
-	data, err := ioutil.ReadFile("config.yaml")
+	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("read config file: %w", err)
 	}
