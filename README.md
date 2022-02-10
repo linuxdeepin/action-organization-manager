@@ -2,6 +2,11 @@
 
 github actions for organization manage
 
+## Features
+
+1. Features switch (Wiki,Issues...)
+2. Branchs protection
+
 ## Input
 
 ```yaml
