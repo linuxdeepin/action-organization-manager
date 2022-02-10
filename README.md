@@ -38,16 +38,16 @@ github actions for organization manage
         paths: ["organization.yaml", ".github/workflows/org-mgr.yml"]
 
     jobs:
-    job:
-        name: organization-manager
-        runs-on: ubuntu-latest
-        steps:
-        - uses: myml/action-organization-manager@v0.0.3
-            with:
-            app_id: $app_id
-            installation_id: $installation_id
-            private_key: ${{ secrets.APP_PRIVATE_KEY }}
-            config_file: organization.yaml
+        job:
+            name: organization-manager
+            runs-on: ubuntu-latest
+            steps:
+            - uses: myml/action-organization-manager@v0.0.3
+                with:
+                app_id: $app_id
+                installation_id: $installation_id
+                private_key: ${{ secrets.APP_PRIVATE_KEY }}
+                config_file: organization.yaml
     ```
 
 1. Add `organization.yaml` config file to organization repository
