@@ -3,6 +3,7 @@ name: "action-organization-manager"
 description: "manager organization repositories in one file"
 author: myml
 branding:
+  icon: align-center
   color: "black"
 inputs:
   app_id:
