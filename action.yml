@@ -32,6 +32,6 @@ runs:
         go install github.com/myml/action-organization-manager/cmd/action-organization-manager@latest
     - name: command
       shell: bash
-      run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.config_file }} -installation_id=${{ inputs.installation_id }}
+      run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
       env:
         PRIVATE_KEY: ${{ inputs.private_key }}
