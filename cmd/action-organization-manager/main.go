@@ -44,19 +44,13 @@ func main() {
 }
 
 func run(ctx context.Context, client *github.Client, config *Config) error {
-	page := 1
+	opt := github.RepositoryListByOrgOptions{}
 	for {
-		repos, _, err := client.Repositories.ListByOrg(context.Background(), config.Organization,
-			&github.RepositoryListByOrgOptions{ListOptions: github.ListOptions{Page: page}},
-		)
+		repos, resp, err := client.Repositories.ListByOrg(context.Background(), config.Organization, &opt)
 		if err != nil {
 			log.Fatal(err)
 		}
-		if len(repos) == 0 {
-			break
-		}
 		for _, repo := range repos {
-			log.Println(repo.GetFullName())
 			for _, setting := range config.Settings {
 				for _, name := range setting.Repositories {
 					if match, err := regexp.Match(name, []byte(repo.GetName())); err != nil {
@@ -82,7 +76,11 @@ func run(ctx context.Context, client *github.Client, config *Config) error {
 				}
 			}
 		}
-		page++
+		if resp.NextPage == 0 {
+			break
+		}
+		opt.Page = resp.NextPage
+
 	}
 
 	return nil
