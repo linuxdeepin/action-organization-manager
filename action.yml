@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         go env -w GO111MODULE=on
-        go install github.com/linuxdeepin/action-organization-manager/cmd/action-organization-manager@v0.0.4
+        go install github.com/linuxdeepin/action-organization-manager/cmd/action-organization-manager@v0.0.5
     - name: command
       shell: bash
       run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
