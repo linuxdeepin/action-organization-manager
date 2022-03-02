@@ -1,4 +1,4 @@
-module github.com/myml/action-organization-manager
+module github.com/linuxdeepin/action-organization-manager
 
 go 1.17
 
