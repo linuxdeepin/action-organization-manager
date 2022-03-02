@@ -108,7 +108,7 @@ func branchesSync(ctx context.Context, client *github.Client, repo string, branc
 	var req github.ProtectionRequest
 
 	if setting.EnforceAdmins != nil {
-		req.EnforceAdmins = true
+		req.EnforceAdmins = *setting.EnforceAdmins
 	}
 	if setting.DismissStaleReviews != nil {
 		if req.RequiredPullRequestReviews == nil {
