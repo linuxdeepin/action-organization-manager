@@ -46,30 +46,56 @@ func main() {
 func run(ctx context.Context, client *github.Client, config *Config) error {
 	opt := github.RepositoryListByOrgOptions{}
 	for {
-		repos, resp, err := client.Repositories.ListByOrg(context.Background(), config.Organization, &opt)
+		ownerName := config.Organization
+		repos, resp, err := client.Repositories.ListByOrg(context.Background(), ownerName, &opt)
 		if err != nil {
 			log.Fatal(err)
 		}
 		for _, repo := range repos {
+			repoName := repo.GetName()
 			for _, setting := range config.Settings {
-				for _, name := range setting.Repositories {
-					if match, err := regexp.Match(name, []byte(repo.GetName())); err != nil {
-						return err
-					} else if !match {
+				for _, repoRegexp := range setting.Repositories {
+					match, err := regexp.MatchString(repoRegexp, repoName)
+					if err != nil {
+						return fmt.Errorf("%s match %s failed: %w", repoRegexp, repoName, err)
+					}
+					if !match {
 						continue
 					}
-					log.Println(repo.GetFullName(), name)
+					log.Println(repoRegexp, "match to", repo.GetFullName())
 					eg, ctx := errgroup.WithContext(ctx)
 					eg.Go(func() error {
 						return featuresSync(ctx, client, repo.GetFullName(), setting.Features)
 					})
-					for key := range setting.Branches {
-						branch := key
-						eg.Go(func() error {
-							return branchesSync(ctx, client, repo.GetFullName(), branch, setting.Branches[branch])
-						})
+					listBranchOpt := github.ListOptions{}
+					for {
+						branches, resp, err := client.Repositories.ListBranches(ctx, ownerName, repoName, &listBranchOpt)
+						if err != nil {
+							return fmt.Errorf("list branch: %w", err)
+						}
+						for i := range branches {
+							branch := branches[i].GetName()
+							for branchRegexp := range setting.Branches {
+								match, err := regexp.MatchString(branchRegexp, branch)
+								if err != nil {
+									return fmt.Errorf("%s match %s failed: %w", branchRegexp, branch, err)
+								}
+								if !match {
+									continue
+								}
+								log.Println("\t", branchRegexp, "match to", branchRegexp)
+								eg.Go(func() error {
+									return branchesSync(ctx, client, ownerName, repoName, branch, setting.Branches[branchRegexp])
+								})
+								break
+							}
+						}
+						if resp.NextPage == 0 {
+							break
+						}
+						listBranchOpt.Page = resp.NextPage
 					}
-					err := eg.Wait()
+					err = eg.Wait()
 					if err != nil {
 						return err
 					}
@@ -104,7 +130,7 @@ func featuresSync(ctx context.Context, client *github.Client, repo string, featu
 	}
 	return nil
 }
-func branchesSync(ctx context.Context, client *github.Client, repo string, branch string, setting Branches) error {
+func branchesSync(ctx context.Context, client *github.Client, owner, repo string, branch string, setting Branches) error {
 	var req github.ProtectionRequest
 
 	if setting.EnforceAdmins != nil {
@@ -135,7 +161,6 @@ func branchesSync(ctx context.Context, client *github.Client, repo string, branc
 		}
 		req.RequiredStatusChecks.Contexts = setting.RequiredStatusChecks.Content
 	}
-	owner, repo := split(repo)
 	_, _, err := client.Repositories.UpdateBranchProtection(ctx, owner, repo, branch, &req)
 	if err != nil {
 		return fmt.Errorf("update branch protection: %w", err)
