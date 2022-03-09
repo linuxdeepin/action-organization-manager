@@ -123,6 +123,9 @@ func featuresSync(ctx context.Context, client *github.Client, repo string, featu
 	if features.Wike.Enable != nil {
 		r.HasWiki = features.Wike.Enable
 	}
+	r.AllowMergeCommit = features.AllowMergeCommit.Enable
+	r.AllowRebaseMerge = features.AllowRebaseMerge.Enable
+	r.AllowSquashMerge = features.AllowSquashMerge.Enable
 	owner, repo := split(repo)
 	_, _, err := client.Repositories.Edit(ctx, owner, repo, &r)
 	if err != nil {
