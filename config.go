@@ -19,16 +19,16 @@ type Setting struct {
 }
 
 type Features struct {
-	Issues           FeatureOption
-	Wike             FeatureOption
-	Projects         FeatureOption
-	AllowMergeCommit FeatureOption
-	AllowRebaseMerge FeatureOption
-	AllowSquashMerge FeatureOption
+	Issues           FeatureOption `yaml:"issues"`
+	Wiki             FeatureOption `yaml:"wiki"`
+	Projects         FeatureOption `yaml:"projects"`
+	AllowMergeCommit FeatureOption `yaml:"allow_merge_commit"`
+	AllowRebaseMerge FeatureOption `yaml:"allow_rebase_merge"`
+	AllowSquashMerge FeatureOption `yaml:"allow_squash_merge"`
 }
 
 type FeatureOption struct {
-	Enable *bool
+	Enable *bool `yaml:"enable"`
 }
 
 type Branches struct {

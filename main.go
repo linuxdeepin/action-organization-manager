@@ -120,8 +120,8 @@ func featuresSync(ctx context.Context, client *github.Client, repo string, featu
 	if features.Projects.Enable != nil {
 		r.HasProjects = features.Projects.Enable
 	}
-	if features.Wike.Enable != nil {
-		r.HasWiki = features.Wike.Enable
+	if features.Wiki.Enable != nil {
+		r.HasWiki = features.Wiki.Enable
 	}
 	r.AllowMergeCommit = features.AllowMergeCommit.Enable
 	r.AllowRebaseMerge = features.AllowRebaseMerge.Enable
