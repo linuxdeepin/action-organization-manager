@@ -19,9 +19,12 @@ type Setting struct {
 }
 
 type Features struct {
-	Issues   FeatureOption
-	Wike     FeatureOption
-	Projects FeatureOption
+	Issues           FeatureOption
+	Wike             FeatureOption
+	Projects         FeatureOption
+	AllowMergeCommit FeatureOption
+	AllowRebaseMerge FeatureOption
+	AllowSquashMerge FeatureOption
 }
 
 type FeatureOption struct {
