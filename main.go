@@ -69,7 +69,7 @@ func run(ctx context.Context, client *github.Client, config *Config) error {
 					})
 					listBranchOpt := github.ListOptions{}
 					for {
-						branches, resp, err := client.Repositories.ListBranches(ctx, ownerName, repoName, &listBranchOpt)
+						branches, resp, err := client.Repositories.ListBranches(context.Background(), ownerName, repoName, &listBranchOpt)
 						if err != nil {
 							return fmt.Errorf("list branch: %w", err)
 						}
