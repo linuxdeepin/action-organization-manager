@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/bradleyfalzon/ghinstallation"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v43/github"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -163,6 +163,12 @@ func branchesSync(ctx context.Context, client *github.Client, owner, repo string
 			req.RequiredStatusChecks = &github.RequiredStatusChecks{}
 		}
 		req.RequiredStatusChecks.Contexts = setting.RequiredStatusChecks.Content
+	}
+	if setting.AllowForcePushes != nil {
+		req.AllowForcePushes = setting.AllowForcePushes
+	}
+	if setting.AllowDeletions != nil {
+		req.AllowDeletions = setting.AllowDeletions
 	}
 	_, _, err := client.Repositories.UpdateBranchProtection(ctx, owner, repo, branch, &req)
 	if err != nil {
