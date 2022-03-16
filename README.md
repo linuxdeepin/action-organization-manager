@@ -52,7 +52,6 @@ github actions for organization manage
 
 1. Add `organization.yaml` config file to organization repository
 
-
     ```yaml
     organization: $organization_name
     settings:
@@ -62,8 +61,6 @@ github actions for organization manage
             enable: true
         wiki:
             enable: true
-        projects:
-            enable: true
         branches:
           $branche_name:
             dismiss_stale_reviews: true
@@ -72,4 +69,6 @@ github actions for organization manage
             required_status_checks:
             require_review: true
             strict: true
+            allow_force_pushes: false
+            allow_deletions: false
     ```
