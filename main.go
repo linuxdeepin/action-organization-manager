@@ -67,7 +67,7 @@ func run(ctx context.Context, client *github.Client, config *Config) error {
 					eg.Go(func() error {
 						return featuresSync(ctx, client, repo.GetFullName(), setting.Features)
 					})
-					listBranchOpt := github.BranchListOptions{}
+					listBranchOpt := github.ListOptions{}
 					for {
 						branches, resp, err := client.Repositories.ListBranches(context.Background(), ownerName, repoName, &listBranchOpt)
 						if err != nil {
