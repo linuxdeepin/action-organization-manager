@@ -28,10 +28,10 @@ runs:
     - name: install action bin
       shell: bash
       run: |
-        go env -w GO111MODULE=on GOPROXY=direct,https://proxy.golang.org
-        go install github.com/linuxdeepin/action-organization-manager@latest
+        cd $GITHUB_ACTION_PATH
+        go build ./cmd/action-cppcheck
     - name: command
       shell: bash
-      run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
+      run: $GITHUB_ACTION_PATH/action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
       env:
         PRIVATE_KEY: ${{ inputs.private_key }}
