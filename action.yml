@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         cd $GITHUB_ACTION_PATH
-        go build ./cmd/action-cppcheck
+        go build
     - name: command
       shell: bash
       run: $GITHUB_ACTION_PATH/action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
