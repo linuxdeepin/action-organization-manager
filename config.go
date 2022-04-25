@@ -36,8 +36,6 @@ type Branches struct {
 	EnforceAdmins                *bool                `yaml:"enforce_admins"`
 	RequiredApprovingReviewCount *int                 `yaml:"required_approving_review_count"`
 	RequiredStatusChecks         RequiredStatusChecks `yaml:"required_status_checks"`
-	AllowForcePushes             *bool                `yaml:"allow_force_pushes"`
-	AllowDeletions               *bool                `yaml:"allow_deletions"`
 }
 type RequiredStatusChecks struct {
 	Strict *bool `yaml:"strict"`
