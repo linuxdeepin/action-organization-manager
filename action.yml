@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         go env -w GO111MODULE=on GOPROXY=direct,https://proxy.golang.org
-        go install github.com/linuxdeepin/action-organization-manager@main
+        go install github.com/linuxdeepin/action-organization-manager@latest
     - name: command
       shell: bash
       run: action-organization-manager -f=${{ inputs.config_file }} -app_id=${{ inputs.app_id }} -installation_id=${{ inputs.installation_id }}
